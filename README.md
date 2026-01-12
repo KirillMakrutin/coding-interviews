@@ -12,20 +12,20 @@ This repository contains my interview coding tasks and take-home assignments.
 
 List of interview tasks and corresponding branches:
 
-- `java-marketplace-202601-v1`
+- `tasks/java-marketplace-202601-v1`
   - Java backend task (Spring Boot, REST API)
 
-- `java-todo-202601-v1`
+- `tasks/java-todo-202601-v1`
   - Spring Boot problem-solving task
 
-- `js-login-201601-v1`
+- `tasks/js-login-201601-v1`
   - HTML+CSS+JS problem-solving task
 
-- `js-react-login-201601-v1`
+- `tasks/js-react-login-201601-v1`
   - React problem-solving task
 
 Branch naming format:
-- `lang_type-name-date-version`
+- `tasks/lang_type-name-date-version`
 
 ---
 
