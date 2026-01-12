@@ -1,0 +1,133 @@
+<!-- 
+This is a simple login page implemented using vanilla JavaScript.
+The login form should be centered both vertically and horizontally.
+When the login button is clicked, it sends the username and password to a mock client.
+If the login is successful, it shows a success alert; otherwise, it shows an error alert. 
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html body.login-page,
+      html body.login-page .login-container,
+      html body.login-page .login-container .login-form {
+        display: block;
+      }
+
+      body {
+        margin: 0;
+        background-color: #f0f2f5;
+        font-family: Arial, sans-serif;
+      }
+
+      .login-container {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .login-form {
+        width: 300px;
+        padding: 20px;
+        background: white;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .login-form input {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px;
+      }
+
+      .login-form button {
+        width: 100%;
+        padding: 8px;
+      }
+    </style>
+  </head>
+
+  <body class="login-page">
+    <div class="login-container">
+      <div class="login-form">
+        <h3>Login</h3>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Username"
+          value=""
+        />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          value=""
+        />
+        <button type="button">Login</button>
+      </div>
+    </div>
+    <script>
+      class Client {
+        send(data) {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              if (data.username && data.password) {
+                resolve(`Hello ${data.username}!`);
+              } else {
+                reject(
+                  new Error("Invalid data: username and password are required.")
+                );
+              }
+            }, 1000);
+          });
+        }
+      }
+
+      class LoginComponent {
+        constructor() {
+          this.client = new Client();
+          this.state = {
+            username: "",
+            password: "",
+          };
+        }
+
+        handleInputChange(event) {
+          const name = event.target.name;
+          const value = event.target.value;
+
+          this.state[name] = value;
+        }
+
+        async handleLoginBtnClick() {
+          try {
+            const response = this.client.send(this.state);
+            alert("Login successful: " + JSON.stringify(response));
+          } catch (error) {
+            alert("Login failed: " + error.message);
+          }
+        }
+      }
+      const loginComponent = new LoginComponent();
+      document
+        .getElementById("username")
+        .addEventListener("input", loginComponent.handleInputChange);
+      document
+        .getElementById("password")
+        .addEventListener("input", loginComponent.handleInputChange);
+      document
+        .querySelector(".login-form button")
+        .addEventListener("click", loginComponent.handleLoginBtnClick);
+    </script>
+  </body>
+</html>
