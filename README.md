@@ -12,6 +12,9 @@ This repository contains my interview coding tasks and take-home assignments.
 
 List of interview tasks and corresponding branches:
 
+- `tasks/java-core-202601-v1`
+  - Java core problem-solving tasks
+
 - `tasks/java-marketplace-202601-v1`
   - Java backend task (Spring Boot, REST API)
 
