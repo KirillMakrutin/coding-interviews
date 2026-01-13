@@ -1,0 +1,222 @@
+<!-- 
+Logic Description:  
+  - Parent component fetches a list of users and allows creating a department.
+  - Child component filters female users and allows selecting one as the head of the department.
+  
+  Optimization Tasks:
+  1. Identify the performance bottleneck in the Parent-Child component structure.
+  2. Optimize the Child component to prevent unnecessary re-computations during Parent re-renders.
+  3. Optimize Parent-Child components to prevemt unnecessary re-renders during Parent re-renders.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>React Problem-Solving Tasks</title>
+
+    <!-- React + ReactDOM -->
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+
+    <!-- Babel for JSX -->
+    <script
+      src="https://unpkg.com/@babel/standalone/babel.min.js"
+      crossorigin
+    ></script>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      #parent,
+      #child {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-top: 10px;
+        position: relative;
+      }
+      input[type="text"] {
+        padding: 5px;
+        font-size: 16px;
+        width: 300px;
+      }
+      hr {
+        margin: 20px 0;
+      }
+      #user-selected,
+      #no-user-selected {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+      }
+      .render-count-label {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background: rgba(63, 7, 128, 0.788);
+        color: #fff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 12px;
+      }
+      .component-label {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        background: rgba(0, 128, 0, 0.788);
+        color: #fff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 12px;
+      }
+      .create-department-section {
+        margin-top: 20px;
+        display: flex;
+        justify-content: end;
+      }
+      .create-department-btn {
+        padding: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function Child({ users, onSelectUser }) {
+        const countRef = React.useRef(0);
+        countRef.current += 1;
+
+        function filterFemaleUsers(users) {
+          console.warn(
+            `${countRef.current}. Heavy computation task running...`
+          );
+          return users.filter((user) => user.gender === "female");
+        }
+
+        const femaleUsers = filterFemaleUsers(users);
+
+        function handleUserSelect(event) {
+          const selectedId = parseInt(event.target.value);
+          const selectedUser = femaleUsers.find(
+            (user) => user.id === selectedId
+          );
+          if (selectedUser) {
+            onSelectUser(selectedUser);
+          }
+        }
+
+        return (
+          <div id="child">
+            <span className="component-label">Child</span>
+            <span className="render-count-label">{countRef.current}</span>
+            <div>
+              <h2>Select Head of Department</h2>
+              <select onChange={handleUserSelect} defaultValue="">
+                <option value="" disabled>-- Select User --</option>
+                {femaleUsers.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.firstName + " " + user.lastName}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        );
+      }
+
+      function Parent() {
+        const [loading, setLoading] = React.useState(true);
+        const [users, setUsers] = React.useState([]);
+        const [selectedUser, setSelectedUser] = React.useState(null);
+        const [department, setDepartment] = React.useState("");
+
+        React.useEffect(() => {
+          fetch("https://dummyjson.com/users")
+            .then((response) => response.json())
+            .then((data) => data.users)
+            .then((data) => {
+              setUsers(data);
+              setLoading(false);
+            })
+            .catch((error) => {
+              console.error("Error loading users:", error);
+              setLoading(false);
+            });
+        }, []);
+
+        const handleUserSelected = (user) => {
+          setSelectedUser(user.firstName + " " + user.lastName);
+        };
+
+        const createDepartment = () => {
+          alert(`Department: ${department}\nHead: ${selectedUser || "None"}`);
+        };
+
+        const isCreateBtnEnabled =
+          department.trim() !== "" &&
+          selectedUser != null &&
+          selectedUser.trim() !== "";
+
+        return (
+          <div>
+            {loading ? (
+              <div>Loading users...</div>
+            ) : (
+              <div id="parent">
+                <span className="component-label">Parent</span>
+                <h1>Create Department</h1>
+                <input
+                  type="text"
+                  placeholder="Department Name"
+                  value={department}
+                  onChange={(e) => setDepartment(e.target.value)}
+                />
+                {selectedUser ? (
+                  <div id="user-selected">
+                    <h3>Head of Department</h3>
+                    <p>Name: {selectedUser}</p>
+                  </div>
+                ) : (
+                  <div id="no-user-selected">No user selected</div>
+                )}
+                <hr />
+                <Child users={users} onSelectUser={handleUserSelected} />
+                <div className="create-department-section">
+                  <button
+                    className="create-department-btn"
+                    onClick={createDepartment}
+                    disabled={!isCreateBtnEnabled}
+                  >
+                    Create Department
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      function App() {
+        return <Parent />;
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
