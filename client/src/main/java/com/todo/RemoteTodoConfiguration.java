@@ -1,6 +1,7 @@
 package com.todo;
 
 import com.todo.config.TodoProperties;
+import com.todo.service.RemoteTodoService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -10,6 +11,11 @@ import org.springframework.web.client.RestClient;
 @ComponentScan
 @Configuration
 public class RemoteTodoConfiguration {
+
+  @Bean("remoteTodoService")
+  RemoteTodoService remoteTodoService(RestClient todoRestClient) {
+    return new RemoteTodoService(todoRestClient);
+  }
 
   @ConditionalOnMissingBean(name = "todoRestClient")
   @Bean

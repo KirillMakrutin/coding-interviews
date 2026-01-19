@@ -3,6 +3,9 @@ package com.todo.application.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ * A->B->A: These are just sample services to demonstrate circular dependency resolution
+ */
 @Slf4j
 @Service
 public class BImpl implements B {
@@ -10,6 +13,7 @@ public class BImpl implements B {
 
   public BImpl(A aService) {
     this.aService = aService;
+    log.info("BImpl created");
   }
 
   @Override

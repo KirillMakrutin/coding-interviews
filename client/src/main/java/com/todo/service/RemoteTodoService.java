@@ -2,10 +2,8 @@ package com.todo.service;
 
 import com.todo.dto.Todo;
 import java.util.List;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-@Service("remoteTodoService")
 public class RemoteTodoService implements TodoService {
 
   private final RestClient restClient;
