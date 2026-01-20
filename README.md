@@ -27,6 +27,9 @@ List of interview tasks and corresponding branches:
 - `tasks/js-react-login-201601-v1`
   - React problem-solving task
 
+- `tasks/sql-racer-201601-v1`
+  - SQL problem-solving task
+
 Branch naming format:
 - `tasks/lang_type-name-date-version`
 
