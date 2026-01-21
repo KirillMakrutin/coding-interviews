@@ -21,6 +21,9 @@ List of interview tasks and corresponding branches:
 - `tasks/java-todo-202601-v1`
   - Spring Boot problem-solving task
 
+- `/tasks/java-bookstore-202601-v1`
+  - Spring Boot UI exception investigation task
+
 - `tasks/js-login-201601-v1`
   - HTML+CSS+JS problem-solving task
 
