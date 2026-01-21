@@ -1,42 +1,25 @@
-# Interview Tasks
+QA reports and issues for the project
+========================================================
+Fix the issue that is happening when placing an order with the 'Pay Later' option after a Visa card order.
 
-This repository contains my interview coding tasks and take-home assignments.
+Steps to Reproduce
+------------------
+1. Follow http://localhost:8080/bookstore/order
+2. Place an order for any book with Visa card
+3. Observe the order confirmation page
+4. Place another order for any book with 'Pay Later' option
+5. Observer the error message `Error: Placing order failed. Please try again.`
 
-- each task is implemented in a **separate Git branch**
-- `main` branch contains only documentation
-- branches are isolated to keep solutions clean and easy to review
+Note
+------------------
+1. If QA follows the same steps but choose a MasterCard method before the 'Pay Later', the order is processed successfully without any errors.
+2. If QA follows http://localhost:8080/bookstore/order for the 1st time and directly chooses the 'Pay Later' option, the order is processed successfully without any errors.
 
----
-
-## Branches
-
-List of interview tasks and corresponding branches:
-
-- `tasks/java-core-202601-v1`
-  - Java core problem-solving tasks
-
-- `tasks/java-marketplace-202601-v1`
-  - Java backend task (Spring Boot, REST API)
-
-- `tasks/java-todo-202601-v1`
-  - Spring Boot problem-solving task
-
-- `tasks/js-login-201601-v1`
-  - HTML+CSS+JS problem-solving task
-
-- `tasks/js-react-login-201601-v1`
-  - React problem-solving task
-
-- `tasks/sql-racer-201601-v1`
-  - SQL problem-solving task
-
-Branch naming format:
-- `tasks/lang_type-name-date-version`
-
----
-
-## How to Review a Task
-
-- checkout the required branch:
-  ```bash
-  git checkout <branch-name>
+Log Output
+------------------
+```
+c.b.paymentflow.service.OrderService: Error while creating order Order(orderId=17, userId=1, bookId=2, paymentProfileId=null, deliveryAddressId=work, paid=false)
+java.lang.NullPointerException: Cannot invoke "java.lang.Boolean.booleanValue()" because the return value of "com.bookstore.paymentflow.model.OrderRequest.getPayLater()" is null
+	at com.bookstore.paymentflow.service.OrderService.createOrder(OrderService.java:72) ~[classes/:na]
+	at com.bookstore.paymentflow.controller.BookStoreController.createOrder(BookStoreController.java:53) ~[classes/:na]
+```

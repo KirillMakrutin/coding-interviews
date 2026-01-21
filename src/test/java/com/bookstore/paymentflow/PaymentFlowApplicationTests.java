@@ -1,0 +1,13 @@
+package com.bookstore.paymentflow;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class PaymentFlowApplicationTests {
+
+  @Test
+  void contextLoads() {
+  }
+
+}
