@@ -6,9 +6,9 @@ Every time user open http://localhost:8080/bookstore/order, their balances are r
 
 ## QA Observations
 - When I open http://localhost:8080/bookstore/order and place an order with the 'Pay Later', then everything works.
-- But I'm get the error message `Error: Placing order failed. Please try again.`, when I open http://localhost:8080/bookstore/order and
+- But I get the error message `Error: Placing order failed. Please try again.`, when I open http://localhost:8080/bookstore/order
   - first place an order with Visa card
-  - then place another order with 'Pay Later' 
+  - second place another order with 'Pay Later' 
 - When I open http://localhost:8080/bookstore/order and first place an order with MasterCard and then with 'Pay Later', 
 it also works fine.
 
