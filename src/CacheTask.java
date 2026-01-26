@@ -12,12 +12,6 @@ interface StringCache {
 }
 
 // 2nd rewrite to be able to work with any object (not primitive) data types (any id and value types)
-interface Cache<ID, VALUE> {
-    void add(ID id, VALUE value);
-
-    VALUE get(ID id);
-}
-
 
  // 3rd
 class Example3 {
