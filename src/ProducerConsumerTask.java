@@ -40,9 +40,11 @@ class Consumer {
 class Topic {
 
   void send(Integer value) {
+    // TODO: implement send logic
   }
 
   Integer receive() {
+    // TODO: implement receive logic
     return null;
   }
 }
